@@ -1,7 +1,7 @@
 const Selector = require("../Selectors/Selector");
 class HomePage{
     async homePageLink(){
-        await page.goto('https://magento.softwaretestingboard.com', { waitUntil: 'domcontentloaded' });
+        await page.goto(Selector.homePageURL, { waitUntil: "domcontentloaded" });
     }
 
     async createAccountLink(){

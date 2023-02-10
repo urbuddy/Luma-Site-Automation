@@ -6,20 +6,23 @@ const SignUpPage = require("./pageModules/SignUpPage");
 const CategoryPage = require("./pageModules/CategoryPage");
 const SearchResultPage = require("./pageModules/SearchResultPage");
 const PaymentPage = require("./pageModules/PaymentPage");
+const SuccessPage = require("./pageModules/SuccessPage");
+const ProductDetailsPage = require("./pageModules/ProductDetailsPage");
+const productdetailsPage = new ProductDetailsPage();
+const successPage = new SuccessPage();
 const categoryPage = new CategoryPage();
 const searchResultPage = new SearchResultPage();
 const payment = new PaymentPage();
 const hompage = new HomePage();
 const cartpage = new CartPage();
 const purchasepage = new PurchasePage();
-const signIn = new SignInPage();
 const signUp = new SignUpPage();
-page = globalThis.__PAGE_GLOBAL__; 
 describe("Luma Site Automation", () => {
 
-    test("Sign-up Process of the site", async () => {
+    test("Sign Up to Buying a product from site", async () => {
         await hompage.homePageLink(); 
         await hompage.createAccountLink();
+
         let userInfo = {
             firstname: "WWW",
             lastname: "XXX",
@@ -28,12 +31,12 @@ describe("Luma Site Automation", () => {
         };
 
         let isNotNewAccount = await signUp.signUpProcess(userInfo);
-        if(isNotNewAccount){
-            await hompage.signInLink();
-            await signIn.singInProcess(userInfo);
-        }
 
-        await searchResultPage.searchProductAndGetlengthOfProduct("bag", "10");
+        let searchProduct = {
+            name: "bag",
+            record: "10"
+        }
+        await searchResultPage.searchProductAndGetlengthOfProduct(searchProduct);
 
         let category = [
             {text: "Shop New Yoga", record: "32"}, 
@@ -51,12 +54,12 @@ describe("Luma Site Automation", () => {
             color:"Green"
         }
         await hompage.productPageLink(product);
-        await cartpage.addToCartProduct(product);
 
+        await productdetailsPage.addToCartProduct(product);
         await cartpage.openCart();
         await cartpage.verifyDetailsOfCartProduct(product);
-
         await cartpage.procedeToPurchaseBtn();
+
         let address = {
             street: "XYZ",
             city: "UVW",
@@ -66,8 +69,9 @@ describe("Luma Site Automation", () => {
         };
         await purchasepage.fillAddressAndSubmit(address, isNotNewAccount);
 
-        let orderID = await payment.placeOrderAndGetorderID();
-        console.log("Order Successfull, Order ID: ", orderID);
-    });
+        await payment.placeOrderAndGetorderID();
 
+        await successPage.verifyProductOrdered();
+        await successPage.verifyProductID();
+    });
 });

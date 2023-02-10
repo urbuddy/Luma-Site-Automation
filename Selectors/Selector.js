@@ -1,6 +1,8 @@
 module.exports = {
+    homePageURL: "https://magento.softwaretestingboard.com",
     createAccount: "//a[contains(text(), 'Create an Account')]",
     loginLink: "//header//a[contains(text(),'Sign In')]",
+    logedInText: ".logged-in",
     searchfield: "#search",
     searchLength: "#toolbar-amount .toolbar-number",
     openLink: function(value) {
@@ -29,6 +31,7 @@ module.exports = {
     signInEmail: "#email",
     pass: "#pass",
     signInSubmit: "#send2",
+    cartPageURL: "https://magento.softwaretestingboard.com/checkout/cart/",
     cartProduct: "td[data-th='Item'] div strong a",
     cartProductPrice: "span[data-label='Excl. Tax'] span span",
     cartProductSize: "//dt[text()='Size']/following::dd[1]/span",
@@ -48,5 +51,6 @@ module.exports = {
     placeOrderBtn: "button[title='Place Order']",
     orderNumber: "//a[@class='order-number']//strong",
     homepageLink:"img[src='https://magento.softwaretestingboard.com/pub/static/version1666447838/frontend/Magento/luma/en_US/images/logo.svg']",
-    shippingAdress: "//div[normalize-space()='Shipping Address']"
+    shippingAdress: "//div[normalize-space()='Shipping Address']",
+    orderSuccessMsg: ".base"
 }

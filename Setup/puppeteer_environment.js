@@ -14,27 +14,25 @@ class PuppeteerEnvironment extends NodeEnvironment {
   async setup() {
     await super.setup();
 
-    // get the wsEndpoint
     const wsEndpoint = await readFile(path.join(DIR, 'wsEndpoint'), 'utf8');
     if (!wsEndpoint) {
       throw new Error('wsEndpoint not found');
     }
 
-    // connect to puppeteer
     this.global.__BROWSER_GLOBAL__ = await puppeteer.connect({
       browserWSEndpoint: wsEndpoint,
     });
 
-    this.global.__PAGE_GLOBAL__ = await globalThis.__BROWSER_GLOBAL__.newPage();
-    await this.global.__PAGE_GLOBAL__.setViewport({
+    this.global.page = await globalThis.__BROWSER_GLOBAL__.newPage();
+    await this.global.page.setViewport({
       width: 900,
-      height: 1200
+      height: 900
     });
   }
 
   async teardown() {
     if (this.global.__BROWSER_GLOBAL__) {
-      await this.global.__PAGE_GLOBAL__.close();
+      await this.global.page.close();
       this.global.__BROWSER_GLOBAL__.disconnect();
     }
     await super.teardown();

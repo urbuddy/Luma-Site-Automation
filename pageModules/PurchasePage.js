@@ -19,7 +19,7 @@ class PurchasePage{
         if(isNotNewAccount){
             let radioBtn = await page.waitForSelector(Selector.saveAddressRadioBtn, {visible: true});
             await radioBtn.click();
-            await page.waitForNetworkIdle({idleTime: 50});
+            await page.waitForNetworkIdle({idleTime: 500});
             let confirmAddress = await page.waitForXPath(Selector.confirmAddressBtn);
             await confirmAddress.click();
         }
